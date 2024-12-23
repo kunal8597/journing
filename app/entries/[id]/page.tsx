@@ -17,6 +17,7 @@ interface JournalEntry {
   created_at: string;
   updated_at: string;
   is_public: boolean;
+  user_id: string; // Added user_id to check the creator of the entry
 }
 
 export default function EntryPage() {
@@ -25,8 +26,16 @@ export default function EntryPage() {
   const { toast } = useToast();
   const [entry, setEntry] = useState<JournalEntry | null>(null);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
+    // Fetch the current logged-in user
+    async function fetchUser() {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    }
+    fetchUser();
+
     async function fetchEntry() {
       const { data, error } = await supabase
         .from('journal_entries')
@@ -68,12 +77,15 @@ export default function EntryPage() {
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back
         </Button>
-        <Link href={`/edit/${entry.id}`}>
-          <Button variant="outline">
-            <Pencil className="h-4 w-4 mr-2" />
-            Edit Entry
-          </Button>
-        </Link>
+        {/* Conditionally render the Edit button */}
+        {user && user.id === entry.user_id && (
+          <Link href={`/edit/${entry.id}`}>
+            <Button variant="outline">
+              <Pencil className="h-4 w-4 mr-2" />
+              Edit Entry
+            </Button>
+          </Link>
+        )}
       </div>
 
       <Card>
