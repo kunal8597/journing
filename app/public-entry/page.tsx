@@ -7,6 +7,9 @@ import { format } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 
+// Import Supabase's User type
+import { User } from '@supabase/auth-js';
+
 interface PublicEntry {
   id: string;
   title: string;
@@ -17,14 +20,14 @@ interface PublicEntry {
 
 export default function PublicEntriesPage() {
   const [entries, setEntries] = useState<PublicEntry[]>([]);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null); // Typing the user state correctly
   const { toast } = useToast();
 
   useEffect(() => {
     // Fetch the current logged-in user
     async function fetchUser() {
       const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
+      setUser(user); // This now correctly uses the User type from Supabase
     }
     fetchUser();
 
@@ -74,8 +77,6 @@ export default function PublicEntriesPage() {
               <CardContent>
                 <p className="text-muted-foreground line-clamp-3">{entry.content}</p>
               </CardContent>
-             
-             
             </Card>
           </Link>
         ))}

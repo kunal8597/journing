@@ -10,6 +10,9 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 
+// Use Supabase's User type directly
+import { User } from '@supabase/auth-js'; 
+
 interface JournalEntry {
   id: string;
   title: string;
@@ -26,13 +29,13 @@ export default function EntryPage() {
   const { toast } = useToast();
   const [entry, setEntry] = useState<JournalEntry | null>(null);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null); // Use Supabase User type
 
   useEffect(() => {
     // Fetch the current logged-in user
     async function fetchUser() {
       const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
+      setUser(user); // This will now work with the Supabase User type
     }
     fetchUser();
 
