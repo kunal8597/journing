@@ -15,6 +15,7 @@ interface JournalEntry {
   content: string;
   created_at: string;
   is_public: boolean;
+  user_id: string; // Added user_id to link entries to the user
 }
 
 export default function EntriesPage() {
@@ -25,10 +26,23 @@ export default function EntriesPage() {
     fetchEntries();
   }, []);
 
+  // Fetch the logged-in user and filter entries by user_id
   async function fetchEntries() {
+    const { data: { user } } = await supabase.auth.getUser(); // Get current user
+
+    if (!user) {
+      toast({
+        title: 'Error',
+        description: 'You must be logged in to view your entries.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     const { data, error } = await supabase
       .from('journal_entries')
       .select('*')
+      .eq('user_id', user.id) // Only fetch entries created by the logged-in user
       .order('created_at', { ascending: false });
 
     if (error) {
