@@ -11,7 +11,7 @@ export default function Home() {
     <AnimatedGridBackgroundSection>
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] text-center space-y-8 relative z-10 ">
         <div className="space-y-4">
-          {/* Animated icon */}
+          
           <motion.div
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -48,7 +48,7 @@ export default function Home() {
           </motion.p>
         </div>
 
-        {/* Animated buttons */}
+       
         <div className="flex ">
           <motion.div
             initial={{ opacity: 0  }}
@@ -71,7 +71,7 @@ export default function Home() {
           </motion.div>
         </div>
 
-        {/* Move footer down with animation */}
+       
         <motion.div
           className="mt-100"
           initial={{ opacity: 0 }}

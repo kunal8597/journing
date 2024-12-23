@@ -8,8 +8,8 @@ import { Header } from '@/components/header';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Journify - Your Digital Journal',
-  description: 'A minimalistic journal app to capture your thoughts',
+  title: 'Journing',
+  description: 'Write your own journey through a journal.',
 };
 
 export default function RootLayout({
