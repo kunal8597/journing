@@ -98,6 +98,21 @@ export default function NewEntryPage() {
             required
           />
         </div>
+        <div className="flex items-center space-x-2">
+          <Switch
+            id="public"
+            checked={isPublic}
+            onCheckedChange={setIsPublic}
+          />
+          <div>
+            <Label htmlFor="public">Make this entry public</Label>
+            {isPublic && (
+              <p className="text-sm text-muted-foreground mt-1">
+                Public entries are visible to all users and have additional content guidelines
+              </p>
+            )}
+          </div>
+          </div>
 
         
 
