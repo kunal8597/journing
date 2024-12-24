@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Pencil, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import { format } from 'date-fns';
+import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
 interface JournalEntry {
@@ -15,16 +16,17 @@ interface JournalEntry {
   content: string;
   created_at: string;
   is_public: boolean;
-  user_id: string; // Added user_id to link entries to the user
+  user_id: string; 
 }
 
 export default function EntriesPage() {
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const { toast } = useToast();
+  const router = useRouter();
 
   useEffect(() => {
     fetchEntries();
-  }, []);
+  }, );
 
   // Fetch the logged-in user and filter entries by user_id
   async function fetchEntries() {
@@ -80,15 +82,42 @@ export default function EntriesPage() {
     fetchEntries();
   }
 
+  async function handleLogout() {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      toast({
+        title: 'Error logging out',
+        description: error.message,
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    toast({
+      title: 'Logged out',
+      description: 'You have been successfully logged out.',
+    });
+
+    router.push('/auth/login');
+  }
+
   return (
     <div className="space-y-8">
+     
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tight">My Journal Entries</h1>
-        <Link href="/new">
-          <Button>New Entry</Button>
-        </Link>
+        <div className="flex space-x-4">
+          <Link href="/new">
+            <Button>New Entry</Button>
+          </Link>
+          <Button onClick={handleLogout} variant="outline">
+            Log Out
+          </Button>
+        </div>
       </div>
-      
+
+    
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {entries.map((entry) => (
           <Card key={entry.id} className="group">
@@ -121,7 +150,7 @@ export default function EntriesPage() {
             </CardContent>
           </Card>
         ))}
-        
+
         {entries.length === 0 && (
           <p className="text-muted-foreground col-span-full text-center py-12">
             No entries yet. Start writing your first journal entry!

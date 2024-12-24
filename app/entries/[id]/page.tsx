@@ -35,7 +35,7 @@ export default function EntryPage() {
     // Fetch the current logged-in user
     async function fetchUser() {
       const { data: { user } } = await supabase.auth.getUser();
-      setUser(user); // This will now work with the Supabase User type
+      setUser(user); 
     }
     fetchUser();
 
@@ -80,7 +80,7 @@ export default function EntryPage() {
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back
         </Button>
-        {/* Conditionally render the Edit button */}
+       
         {user && user.id === entry.user_id && (
           <Link href={`/edit/${entry.id}`}>
             <Button variant="outline">

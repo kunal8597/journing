@@ -19,7 +19,7 @@ export function WavyCard({ children, className }: WavyCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Wavy background */}
+      
       <div className="absolute inset-0 z-0">
         <svg
           className="absolute w-full h-full"
@@ -61,7 +61,7 @@ export function WavyCard({ children, className }: WavyCardProps) {
         </svg>
       </div>
 
-      {/* Content */}
+     
       <div className="relative z-10">{children}</div>
     </motion.div>
   );

@@ -45,6 +45,15 @@ export function Header() {
           >
             New Entry
           </Link>
+          <Link 
+            href="/contact"
+            className={cn(
+              "text-m font-medium transition-colors hover:text-primary",
+              pathname === "/new" ? "text-primary" : "text-muted-foreground"
+            )}
+          >
+            Contact Me
+          </Link>
           <ModeToggle />
         </nav>
       </div>
