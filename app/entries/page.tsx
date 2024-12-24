@@ -82,25 +82,6 @@ export default function EntriesPage() {
     fetchEntries();
   }
 
-  async function handleLogout() {
-    const { error } = await supabase.auth.signOut();
-
-    if (error) {
-      toast({
-        title: 'Error logging out',
-        description: error.message,
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    toast({
-      title: 'Logged out',
-      description: 'You have been successfully logged out.',
-    });
-
-    router.push('/auth/login');
-  }
 
   return (
     <div className="space-y-8">
@@ -111,9 +92,7 @@ export default function EntriesPage() {
           <Link href="/new">
             <Button>New Entry</Button>
           </Link>
-          <Button onClick={handleLogout} variant="outline">
-            Log Out
-          </Button>
+         
         </div>
       </div>
 
